@@ -1,5 +1,5 @@
 # DRAW_BEAM V1
-Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros superiores e inferiores
+Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros superiores e inferiores, cuenta con interfaz (flet)
 
 #PEQUEÑO EJEMPLO
 
