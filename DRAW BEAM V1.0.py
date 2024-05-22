@@ -1,226 +1,145 @@
 import flet as ft 
-from  viga_base import Style
+from viga_base import Style
 from viga_base import Viga
-from viga_base import Acero
-class Title (ft.UserControl):
-    def __init__(self,title):
-        super().__init__()
-        self.title = title
 
-    def build(self):
-        self.text= ft.Text(str(self.title))
-        self.text.color="#7B241C"
-        self.text.font_family="verdana"
-        self.text.weight="bold"
-        return self.text 
+#Colores para la interfaz
+red = '#000030'
+black = '#000000'
+white ='white'
+azul = '#7B241C'
+verde = '#A7C414'
+naranja = '#E5812B'
+nuevo = '#581845'
+
+#Clase para los titulos y subtitulos de la interfaz
+class Title(ft.Text):
+    def __init__(self,title ,color = azul,size = 14):
+        super().__init__()
+        self.value = title
+        self.font_family = "Verdana"
+        self.italic = False
+        self.weight = "bold"
+        self.size = size
+        self.color = color
+
+#Clase para los inputs de la interfaz
+class TextF(ft.TextField):
+    def __init__(self,label, width, height, suffix = None,
+                 prefix = None, disabled = False):
+        super().__init__()
+        self.label = label
+        self.width = width
+        self.height = height
+        self.suffix = suffix
+        self.prefix = prefix
+        self.value = None
+        self.bgcolor = "white" 
+        self.color = "black"
+        self.selection_color = "blue"
+        self.focused_color = "Red"
+        self.focused_border_width= 3
+        self.width = self.width
+        self.height = self.height
+        self.suffix_text = self.suffix
+        self.prefix_text = self.prefix
+        self.border_width = 2
+        self.border_color = "black"
+        self.text_align = ft.TextAlign.END
+        self.disabled = disabled
+
+#Clase para los desplegables de la interfaz
+class Drop(ft.Dropdown):
+    def __init__(self,label, width, height, prefix = None,
+                 items=["3/8","1/2","5/8","3/4","1"], disabled = False):
+        super().__init__()
+        self.label = label
+        self.prefix = prefix
+        self.items = items
+        self.value = None
+        self.label = self.label
+        self.prefix_text = self.prefix
+        self.border_width = 2
+        self.width = width
+        self.height = height
+        self.color = "black"
+        self.border_color = "black"
+        self.disabled = disabled
+        self.option()
+    def option(self):
+        for i in range(len(self.items)):
+            self.options.append(ft.dropdown.Option(self.items[i]))
+
+class Bot(ft.FloatingActionButton):
+    def __init__(self, label, width, radio, 
+                 icon = "add_circle", mini = True, 
+                 click = None, disabled = False,
+                 color = verde,
+                 text_color = white):
+        
+        super().__init__()
+        self.content = ft.Row(
+            [ft.Icon(icon),ft.Text(label, color = text_color)], 
+             alignment = "center", spacing = 5
+        )
+        self.bgcolor = color
+        self.shape = ft.RoundedRectangleBorder(radius = radio)
+        self.width = width
+        self.mini = mini
+        self.on_click = click
+        self.disabled = disabled
+
+class Check(ft.Checkbox):
+    def __init__(self, disabled = True, value = True, change = None):
+        super().__init__()
+        self.disabled = disabled
+        self.value = value
+        self.on_change = change
         
 def main(page: ft.Page):
-    page.title = "DRAW BEAM"
-    red = '#111130'
-    black = '#000000'
-    white ='white'
-    prueba= "#922B21"
-    y = "USUARIO 1-1"
-    x = f"BIENVENIDO {y}"
-    
+    page.window_width = 700
+    page.window_height = 820
+    page.title = "DRAW BEAM V1.0"
     page.theme_mode ='light'
     page.window_always_on_top = True
-    page.add(
-        ft.Card(
-            ft.Container(
-                content= ft.Row(
-                    [ft.Text(value= x,
-                    size = 20,
-                    color=white, 
-                    font_family="verdana",
-                    weight="bold")], 
-                    alignment = "center")
-                        ),
-            color="#34495E",
-                    )
-             )
-    #DENOMINACIÓN
-    text_viga =ft.TextField(label="VIGA",
-                        width=210,
-                        height=55,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        prefix_text="VIGA",
-                        text_align=ft.TextAlign.END,
-                        keyboard_type = "number"
-                        )
-    #GEOMETRÍA
-    text_base= ft.TextField(label="BASE",
-                        width=110,
-                        height=55,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        suffix_text="m",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END)
-    
-    text_altura = ft.TextField(label="ALTURA",
-                        width=110,
-                        height=55,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        suffix_text="m",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        )	
-    
-    text_recubrimiento = ft.TextField(label="RECUBRI.",
-                        width=110,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="m",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END
-                         )
-    
-    text_estribo = ft.Dropdown(label = "ESTRIBO",
-                        width=110,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        border_width=2,
-                        )
-    
-    text_long_gancho = ft.TextField(label="L.Gancho",
-                        width=110,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="m",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END
-                         )
-    
-                  
-    container_text_geometria = ft.Container(
-        content=ft.Column([Title("DENOMINACIÓN"),
-                        text_viga,
-                        Title("GEOMETRÍA"),
-                        text_base,
-                        text_altura,
-                        text_recubrimiento,          
-                            ])
-                        )
-    
-    s1_top =ft.TextField(label="S1",
-                        width=75,
-                        height=40,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        suffix_text="m",
-                        text_align=ft.TextAlign.END,
-                        keyboard_type = "number",
-                        disabled= True
-                        )
-    
-    s2_top =ft.TextField(label="S2",
-                        width=75,
-                        height=40,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        suffix_text="m",
-                        text_align=ft.TextAlign.END,
-                        keyboard_type = "number",
-                        disabled= True
-                        )
 
-    s1_under =ft.TextField(label="S1",
-                        width=75,
-                        height=40,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        suffix_text="m",
-                        text_align=ft.TextAlign.END,
-                        keyboard_type = "number",
-                        disabled= True
-                        )
-    
-    s2_under =ft.TextField(label="S2",
-                        width=75,
-                        height=40,
-                        bgcolor=white,
-                        color=black,
-                        focused_border_width=3,                        
-                        focused_border_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        suffix_text="m",
-                        text_align=ft.TextAlign.END,
-                        keyboard_type = "number",
-                        disabled= True
-                        ) 
+    #TITULO 
+    text_title = Title(f"BIENVENIDO", white, 20 )
 
-    def style(e):
-        style_cad = Style()
-        text_estilo_cota.options.clear()
-        text_estilo_text.options.clear()
-        for i in style_cad.selection_style_cotas():
-            text_estilo_cota.options.append(ft.dropdown.Option(i))
-        for i in style_cad.selection_style_texto():
-            text_estilo_text.options.append(ft.dropdown.Option(i))
-        page.update()
+    #DENOMINACIÓN Y ESTILOS
+    text_viga = TextF("VIGA", 197, 55, "", "VIGA")
+    text_estilo_text = Drop("E. TEXTO", 197, 55, None, [])
+    text_estilo_cota = Drop("E. COTA", 197, 55, None, [])
     
+    #GEOMETRÍA Y ESTRIBO
+    text_base= TextF("BASE", 110, 55, "m")
+    text_altura = TextF("ALTURA", 110, 55, "m")
+    text_recubrimiento = TextF("RECUBRI.", 110, 55, "m")
+    text_estribo = Drop("ESTRIBO", 110, 55, "Ø ")
+    text_long_gancho = TextF("L.Gancho", 110, 55, "m")
+
+    #PARA LOS ESPACIADORES - ARRIBA
+    s1_top =TextF("S1", 75, 40, "m")
+    s1_top.disabled = True
+
+    s2_top =TextF("S2", 75, 40, "m")
+    s2_top.disabled = True
+
+    #PARA LOS ESPACIADORES - ABAJO
+    s1_under =TextF("S1", 75, 40, "m")
+    s1_under.disabled = True
+
+    s2_under =TextF("S1", 75, 40, "m")
+    s2_under.disabled = True
+
+    #LISTAS PARA ALMACENAR LA CANTIDAD DE ACERO 
     lista_aceros_row1_top = []
     lista_aceros_row2_top = []
     lista_aceros_row3_top = []
     lista_aceros_row1_under = []
     lista_aceros_row2_under = []
     lista_aceros_row3_under = []
-    
+
+    #FUNCIONES PARA ELIMINAR DATOS DE LA LISTA
     def clear_list_row1_top(e):
         lista_aceros_row1_top.clear()
         cantidad_row1_top.value = None
@@ -233,13 +152,15 @@ def main(page: ft.Page):
         cantidad_row2_top.value = None
         cantidad_parcial_row2_top.value  = None
         aceros_disponibles_row2_top.value = None
-    
+        page.update()
+        
     def clear_list_row3_top(e):   
         lista_aceros_row3_top.clear()
         cantidad_row3_top.value = None
         cantidad_parcial_row3_top.value  = None
         aceros_disponibles_row3_top.value = None
-           
+        page.update()
+        
     def clear_list_row1_under(e):
         lista_aceros_row1_under.clear()
         cantidad_row1_under.value = None
@@ -264,38 +185,38 @@ def main(page: ft.Page):
     def creador_lista_row1_top(e):
         if int(cantidad_row1_top.value)> len(lista_aceros_row1_top):
             for i in range(int(cantidad_parcial_row1_top.value)):
-                lista_aceros_row1_top.append(aceros_disponibles_row1_top.value)
-        print(f"lista 1 top {lista_aceros_row1_top}")
+                lista_aceros_row1_top.append(
+                    aceros_disponibles_row1_top.value)
 
     def creador_lista_row2_top(e):
         if int(cantidad_row2_top.value)> len(lista_aceros_row2_top):
             for i in range(int(cantidad_parcial_row2_top.value)):
-                lista_aceros_row2_top.append(aceros_disponibles_row2_top.value)    
-        print(f"lista 2 top {lista_aceros_row2_top}")
+                lista_aceros_row2_top.append(
+                    aceros_disponibles_row2_top.value)    
         
     def creador_lista_row3_top(e):
         if int(cantidad_row3_top.value)> len(lista_aceros_row3_top):
             for i in range(int(cantidad_parcial_row3_top.value)):
-                lista_aceros_row3_top.append(aceros_disponibles_row3_top.value)    
-        print(f"lista 3 top {lista_aceros_row3_top}")
+                lista_aceros_row3_top.append(
+                    aceros_disponibles_row3_top.value)    
         
     def creador_lista_row1_under(e):
         if int(cantidad_row1_under.value)> len(lista_aceros_row1_under):
             for i in range(int(cantidad_parcial_row1_under.value)):
-                lista_aceros_row1_under.append(aceros_disponibles_row1_under.value)
-        print(f"lista 1 under {lista_aceros_row1_under}")
+                lista_aceros_row1_under.append(
+                    aceros_disponibles_row1_under.value)
 
     def creador_lista_row2_under(e):
         if int(cantidad_row2_under.value)> len(lista_aceros_row2_under):
             for i in range(int(cantidad_parcial_row2_under.value)):
-                lista_aceros_row2_under.append(aceros_disponibles_row2_under.value)
-        print(f"lista 2 under {lista_aceros_row2_under}")
+                lista_aceros_row2_under.append(
+                    aceros_disponibles_row2_under.value)
         
     def creador_lista_row3_under(e):
         if int(cantidad_row3_under.value)> len(lista_aceros_row3_under):
             for i in range(int(cantidad_parcial_row3_under.value)):
-                lista_aceros_row3_under.append(aceros_disponibles_row3_under.value)
-        print(f"lista 3 under {lista_aceros_row3_under}")
+                lista_aceros_row3_under.append(
+                    aceros_disponibles_row3_under.value)
     
     def row_activate_top():
         numero_filas_top = 1
@@ -320,12 +241,12 @@ def main(page: ft.Page):
             aceros_disponibles_row2_top.disabled = False
             aceros_disponibles_row2_top.opacity = None
             boton_bucle_row2_top.disabled = False
-            boton_bucle_row2_top.bgcolor = "#A7C414"
+            boton_bucle_row2_top.bgcolor = verde
             boton_remove_row2_top.disabled = False
-            boton_remove_row2_top.bgcolor = "#A7C414"
+            boton_remove_row2_top.bgcolor = nuevo
             check_row3_top.disabled = False
             s1_top.disabled = False
-            
+
         elif check_row2_top.value == False:
             lista_aceros_row2_top.clear()
             lista_aceros_row3_top.clear()
@@ -370,9 +291,9 @@ def main(page: ft.Page):
                 aceros_disponibles_row3_top.disabled = False
                 aceros_disponibles_row3_top.opacity = None
                 boton_bucle_row3_top.disabled = False
-                boton_bucle_row3_top.bgcolor= "#A7C414"
+                boton_bucle_row3_top.bgcolor= verde
                 boton_remove_row3_top.disabled = False  
-                boton_remove_row3_top.bgcolor = "#A7C414"
+                boton_remove_row3_top.bgcolor = nuevo
                 s2_top.disabled = False
                 
         if check_row3_top.value == False:
@@ -399,9 +320,9 @@ def main(page: ft.Page):
             aceros_disponibles_row2_under.disabled = False
             aceros_disponibles_row2_under.opacity = None
             boton_bucle_row2_under.disabled = False
-            boton_bucle_row2_under.bgcolor = "#A7C414"
+            boton_bucle_row2_under.bgcolor = verde
             boton_remove_row2_under.disabled = False
-            boton_remove_row2_under.bgcolor = "#A7C414"
+            boton_remove_row2_under.bgcolor = nuevo
             check_row3_under.disabled = False
             s1_under.disabled = False
             
@@ -447,9 +368,9 @@ def main(page: ft.Page):
                 aceros_disponibles_row3_under.disabled = False
                 aceros_disponibles_row3_under.opacity = None
                 boton_bucle_row3_under.disabled = False
-                boton_bucle_row3_under.bgcolor= "#A7C414"
+                boton_bucle_row3_under.bgcolor= verde
                 boton_remove_row3_under.disabled = False  
-                boton_remove_row3_under.bgcolor = "#A7C414"
+                boton_remove_row3_under.bgcolor = nuevo
                 s2_under.disabled = False
                 
         if check_row3_under.value == False:
@@ -470,7 +391,6 @@ def main(page: ft.Page):
         page.update()
     
     def value_geometria(e):
-        
         style_cota_ingresado = text_estilo_cota.value
         style_text_ingresado = text_estilo_text.value
         b = float(text_base.value)
@@ -495,15 +415,14 @@ def main(page: ft.Page):
                             s2_under.value,
                             l_g
                             )
-        lista1 = []
         viga.get_lista_interfaz(lista_aceros_row1_top,
                                 lista_aceros_row2_top,
                                 lista_aceros_row3_top,
                                 lista_aceros_row1_under,
                                 lista_aceros_row2_under,
                                 lista_aceros_row3_under,
-                                text_viga.value  
-        )
+                                text_viga.value
+                                )
         viga.row_tops()
         viga.row_under()
         viga.points()
@@ -527,505 +446,177 @@ def main(page: ft.Page):
         viga.draw_diameters_under()
         viga.draw_diameters_top()
 
-    text_estilo_text = ft.Dropdown(label = "E. TEXTO",
-                        width=210,
-                        height=55,
-                        border_color=black,
-                        color=prueba,
-                        border_width=2)
-    
-    text_estilo_cota = ft.Dropdown(label = "E. COTA",
-                        width=210,
-                        height=55, 
-                        border_color=black,
-                        color=prueba,
-                        border_width=2) 
+    #CHECK PARA ACTIVAR O DESACTIVAR LOS CAMPOS PARA INTRODUCIR TEXTO
+    check_row1_top = Check()
+    check_row2_top = Check(False, False, activador_desactivador_row2_top)
+    check_row3_top = Check(True, False, activador_desactivador_row3_top)
 
-    check_row1_top = ft.Checkbox(
-                    disabled = True,
-                    value= True
-                    )
+    check_row1_under = Check()
+    check_row2_under = Check(False, False, activador_desactivador_row2_under)
+    check_row3_under = Check(True, False, activador_desactivador_row3_under)
+   
+    #PARA COLOCAR LA CANTIDAD DE ACEROS EN LA PARTE SUPERIOR
+    cantidad_row1_top = TextF("N°Barras", 100, 55, "Barras")
+    cantidad_parcial_row1_top = TextF("", 60, 55)
+    aceros_disponibles_row1_top = Drop("Ø", 80, 55)
     
-    check_row2_top = ft.Checkbox(
-                    on_change=activador_desactivador_row2_top
-                    )
-    
-    check_row3_top = ft.Checkbox(
-                    disabled = True,
-                    on_change=activador_desactivador_row3_top
-                    )
-    
-    check_row1_under = ft.Checkbox(
-                    disabled = True,
-                    value= True
-                    )
-    
-    check_row2_under = ft.Checkbox(
-                    on_change=activador_desactivador_row2_under        
-                    )
-    
-    check_row3_under = ft.Checkbox(
-                disabled = True,
-                on_change= activador_desactivador_row3_under
-        
-                    )
-    
-    cantidad_row1_top = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        
-                         )
-    
-    cantidad_row2_top = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    cantidad_row3_top = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    cantidad_row1_under = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                         )
-    
-    cantidad_row2_under = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
+    cantidad_row2_top = TextF("N°Barras", 100, 55, "Barras",
+                              disabled = True)
+    cantidad_parcial_row2_top = TextF("", 60, 55, disabled = True)
+    aceros_disponibles_row2_top = Drop("Ø", 80, 55, disabled = True)
 
-    cantidad_row3_under = ft.TextField(label="N°Barras",
-                        width=100,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        suffix_text="Barras",
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
+    cantidad_row3_top = TextF("N°Barras", 100, 55, "Barras", 
+                              disabled = True)
+    cantidad_parcial_row3_top = TextF("", 60, 55, disabled = True)
+    aceros_disponibles_row3_top = Drop("Ø", 80, 55, disabled = True)
     
-    cantidad_parcial_row1_top = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END
-                         )
-    
-    cantidad_parcial_row2_top = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    cantidad_parcial_row3_top = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    cantidad_parcial_row1_under = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END
-                         )
-    
-    cantidad_parcial_row2_under = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    cantidad_parcial_row3_under = ft.TextField(label="",
-                        width=60,
-                        height=55,
-                        bgcolor=white,
-                        color = black,
-                        focused_bgcolor=white,
-                        focused_border_color=black,
-                        focused_border_width=3,
-                        focused_color=black,
-                        selection_color="red",
-                        border_color="black",
-                        border_width=2,
-                        text_align=ft.TextAlign.END,
-                        disabled=True
-                         )
-    
-    aceros_disponibles_row1_top = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        border_width=2)
-    
-    aceros_disponibles_row2_top = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        opacity=0.15,
-                        border_width=2,
-                        disabled=True)
+    #PARA COLOCAR LA CANTIDAD DE ACEROS EN LA PARTE INFERIOR
 
-    aceros_disponibles_row3_top = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        opacity=0.15,
-                        border_width=2,
-                        disabled=True)
-    
-    aceros_disponibles_row1_under = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        border_width=2)
+    cantidad_row1_under = TextF("N°Barras", 100, 55, "Barras")
+    cantidad_parcial_row1_under = TextF("", 60, 55)
 
-    aceros_disponibles_row2_under = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        border_width=2,
-                        opacity=0.15,
-                        disabled=True)
-    
-    aceros_disponibles_row3_under = ft.Dropdown(
-                        width=80,
-                        height=55,
-                        prefix_text= "Ø",
-                        options=[ft.dropdown.Option("3/8"),
-                        ft.dropdown.Option("1/2"),
-                        ft.dropdown.Option("5/8"),
-                        ft.dropdown.Option("3/4"),
-                        ft.dropdown.Option("1"),
-                                        ],
-                        border_color=black,
-                        color=black,
-                        border_width=2,
-                        opacity=0.15,
-                        disabled=True)
-    
-    boton_bucle_row1_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='#A7C414',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row1_top)
+    cantidad_row2_under = TextF("N°Barras", 100, 55, "Barras", 
+                                disabled = True)
+    cantidad_parcial_row2_under = TextF("", 60, 55, disabled = True)
 
-    boton_bucle_row2_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row2_top,
-        disabled=True)
+    cantidad_row3_under = TextF("N°Barras", 100, 55, "Barras", 
+                                disabled = True)
+    cantidad_parcial_row3_under = TextF("", 60, 55, disabled = True)
+    
+    aceros_disponibles_row1_under = Drop("Ø", 80, 55)
 
-    boton_bucle_row3_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row3_top,
-        disabled=True)
+    aceros_disponibles_row2_under = Drop("Ø", 80, 55, disabled = True)
+    
+    aceros_disponibles_row3_under = Drop("Ø", 80, 55, disabled = True)
+    
+    #PARA CREAR LOS BOTONES DE ADD PARA LOS ACEROS SUPERIORES
 
-    boton_remove_row1_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='#A7C414',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row1_top)
+    boton_bucle_row1_top = Bot("Add", 70, 5, 
+                               click = creador_lista_row1_top)
+    boton_bucle_row2_top = Bot("Add", 70, 5, disabled = True,
+                               click = creador_lista_row2_top,
+                                color = white)
+    boton_bucle_row3_top = Bot("Add", 70, 5, disabled = True,
+                               click = creador_lista_row3_top,
+                                color = white)
     
-    boton_remove_row2_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row2_top,
-        disabled=True)
-    
-    boton_remove_row3_top = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row3_top,
-        disabled=True)
-    
-    boton_bucle_row1_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='#A7C414',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row1_under)
-    
-    boton_bucle_row2_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row2_under,
-        disabled=True)
-    
-    boton_bucle_row3_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.ADD_CIRCLE), ft.Text("Add")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=70,
-        mini=True,
-        on_click= creador_lista_row3_under,
-        disabled=True)
-    
-    boton_remove_row1_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='#A7C414',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row1_under)
+    #PARA CREAR LOS BOTONES DE REMOVE PARA LOS ACEROS SUPERIORES
 
-    boton_remove_row2_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row2_under,
-        disabled=True)
+    boton_remove_row1_top = Bot("Remove", 90, 5,
+                                click = clear_list_row1_top,
+                                icon = "remove_circle",
+                                color = nuevo)
     
-    boton_remove_row3_under = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.REMOVE_CIRCLE), ft.Text("Remove")], alignment="center", spacing=5
-        ),
-        bgcolor='white',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=90,
-        mini=True,
-        on_click= clear_list_row3_under,
-        disabled=True)
+    boton_remove_row2_top = Bot("Remove", 90, 5, disabled = True,
+                               click = clear_list_row2_top,
+                                color = white, icon = "remove_circle")
+    boton_remove_row3_top = Bot("Remove", 90, 5, disabled = True,
+                               click = clear_list_row3_top,
+                                color = white, icon = "remove_circle")
     
-    boton = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.DRAW), ft.Text("DIBUJAR")], alignment="center", spacing=5
-        ),
-        bgcolor='#E5812B',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=210,
-        mini=True,on_click= value_geometria)
-    boton_style = ft.FloatingActionButton(
-        content=ft.Row(
-            [ft.Icon(ft.icons.LINE_STYLE), ft.Text("CARGAS ESTILOS")], alignment="center", spacing=5
-        ),
-        bgcolor='#E5812B',
-        shape=ft.RoundedRectangleBorder(radius=5),
-        width=210,
-        mini=True,
-        on_click= style)
+    #PARA CREAR LOS BOTONES DE ADD PARA LOS ACEROS INFERIORES
     
-    page.add(ft.Row([Title("DENOMINACIÓN Y ESTILOS")],alignment="center",spacing=25))
-    page.add(ft.Row([text_viga,text_estilo_text,text_estilo_cota],alignment="center",spacing=20))
-    page.add(ft.Row([Title("GOEMETRÍA Y ESTRIBO")],alignment="center"))
-    page.add(ft.Row([text_base,text_altura,text_recubrimiento, text_estribo, text_long_gancho],alignment="center",spacing=20))
+    boton_bucle_row1_under = Bot("Add", 70, 5, 
+                               click = creador_lista_row1_under)
+    boton_bucle_row2_under = Bot("Add", 70, 5, disabled = True,
+                               click = creador_lista_row2_under,
+                                color = white)
+    boton_bucle_row3_under = Bot("Add", 70, 5, disabled = True,
+                               click = creador_lista_row3_under,
+                                color = white)
+    
+    #PARA CREAR LOS BOTONES DE REMOVE PARA LOS ACEROS INFERIORES
+
+    boton_remove_row1_under = Bot("Remove", 90, 5,
+                                click = clear_list_row1_under,
+                                icon = "remove_circle",
+                                color = nuevo)
+    
+    boton_remove_row2_under = Bot("Remove", 90, 5, disabled = True,
+                               click = clear_list_row2_under,
+                                color = white,icon = "remove_circle")
+    boton_remove_row3_under = Bot("Remove", 90, 5, disabled = True,
+                               click = clear_list_row3_under,
+                                color = white, icon = "remove_circle")
+    
+    #FUNCIÓN PARA CARGAR LOS ESTILOS DE AUTOCAD EN EL DROP
+    def style(e):
+        style_cad = Style()
+        text_estilo_cota.options.clear()
+        text_estilo_text.options.clear()
+        for i in style_cad.selection_style_cotas():
+            text_estilo_cota.options.append(ft.dropdown.Option(i))
+        for i in style_cad.selection_style_texto():
+            text_estilo_text.options.append(ft.dropdown.Option(i))
+        page.update()
+
+    #BOTONES PARA CARGAR LOS ESTILOS DE AUTOCAD
+    boton_draw = Bot("DIBUJAR", 210, 5, "draw", 
+                     click = value_geometria,
+                     color = naranja)
+    boton_style = Bot("CARGAR ESTILOS", 210, 5, "line_style", 
+                     click = style,
+                     color = naranja)
+    
+    #ELEMENTOS A AÑADIR A LA VENTANA PRINCIPAL
+    page.add(ft.Card(ft.Container(content= ft.Row([text_title], 
+                                                  alignment = "center")),
+                                                  color="#34495E"))
+    page.add(ft.Row([Title("DENOMINACIÓN Y ESTILOS")],
+                    alignment="center",spacing=25))
+    page.add(ft.Row([text_viga,text_estilo_text,text_estilo_cota],
+                    alignment="center",spacing=20))
+    page.add(ft.Row([Title("GOEMETRÍA Y ESTRIBO")],
+                    alignment="center"))
+    page.add(ft.Row([text_base,text_altura,text_recubrimiento, 
+                     text_estribo, text_long_gancho],
+                    alignment="center",spacing=20))
     page.add(ft.Row([Title("ACEROS")],alignment="center",spacing=65))
-    
-    x_top = ft.Row([Title("FILA 1"),check_row1_top,cantidad_row1_top,cantidad_parcial_row1_top,aceros_disponibles_row1_top,boton_bucle_row1_top,boton_remove_row1_top],alignment="center",spacing=15)
-    y_top = ft.Row([Title("FILA 2"),check_row2_top,cantidad_row2_top,cantidad_parcial_row2_top,aceros_disponibles_row2_top,boton_bucle_row2_top,boton_remove_row2_top,s1_top],alignment="center",spacing=15)
-    z_top = ft.Row([Title("FILA 3"),check_row3_top,cantidad_row3_top,cantidad_parcial_row3_top,aceros_disponibles_row3_top,boton_bucle_row3_top,boton_remove_row3_top,s2_top],alignment="center",spacing=15)
-    
-    x_under = ft.Row([Title("FILA 1"),check_row1_under,cantidad_row1_under,cantidad_parcial_row1_under,aceros_disponibles_row1_under,boton_bucle_row1_under,boton_remove_row1_under],alignment="center",spacing=15)
-    y_under = ft.Row([Title("FILA 2"),check_row2_under,cantidad_row2_under,cantidad_parcial_row2_under,aceros_disponibles_row2_under,boton_bucle_row2_under,boton_remove_row2_under,s1_under],alignment="center",spacing=15)
-    z_under = ft.Row([Title("FILA 3"),check_row3_under,cantidad_row3_under,cantidad_parcial_row3_under,aceros_disponibles_row3_under,boton_bucle_row3_under,boton_remove_row3_under,s2_under],alignment="center",spacing=15)
-    
-    a = ft.Column([Title("SUPERIOR"),x_top,y_top,z_top, Title("INFERIOR"),x_under,y_under,z_under],alignment="center",spacing=10)
-    '''b = ft.Column([Title("INFERIOR"),x,y,z],alignment="center",spacing=10)'''
-    page.add(ft.Row([a],alignment="center",spacing=120))
-    
-    #page.add(ft.Row([container_text_geometria,container_estilo], alignment="center",spacing=10))
-    page.add(ft.Row([boton_style, boton], alignment="center"))
-    return (text_viga, text_base, text_altura,
-            )
-ft.app(target=main)
 
+    #CREAR FILAS PARA LOS ACEROS SUPERIORES
+    x_top = ft.Row([Title("FILA 1"),check_row1_top,
+                    cantidad_row1_top,cantidad_parcial_row1_top,
+                    aceros_disponibles_row1_top,boton_bucle_row1_top,
+                    boton_remove_row1_top],
+                    alignment="center",spacing=15)
+    y_top = ft.Row([Title("FILA 2"),check_row2_top,cantidad_row2_top,
+                    cantidad_parcial_row2_top,
+                    aceros_disponibles_row2_top,boton_bucle_row2_top,
+                    boton_remove_row2_top,s1_top],
+                    alignment="center",spacing=15)
+    z_top = ft.Row([Title("FILA 3"),check_row3_top,cantidad_row3_top,
+                    cantidad_parcial_row3_top,
+                    aceros_disponibles_row3_top,boton_bucle_row3_top,
+                    boton_remove_row3_top,s2_top],
+                    alignment="center",spacing=15)
+    
+    #CREAR FILAS PARA LOS ACEROS INFERIORES
+    x_under = ft.Row([Title("FILA 1"),check_row1_under,
+                      cantidad_row1_under,cantidad_parcial_row1_under,
+                      aceros_disponibles_row1_under,
+                      boton_bucle_row1_under,boton_remove_row1_under],
+                      alignment="center",spacing=15)
+    y_under = ft.Row([Title("FILA 2"),check_row2_under,
+                      cantidad_row2_under,cantidad_parcial_row2_under,
+                      aceros_disponibles_row2_under,
+                      boton_bucle_row2_under,boton_remove_row2_under,
+                      s1_under],
+                      alignment="center",spacing=15)
+    z_under = ft.Row([Title("FILA 3"),check_row3_under,
+                      cantidad_row3_under,cantidad_parcial_row3_under,
+                      aceros_disponibles_row3_under,
+                      boton_bucle_row3_under,boton_remove_row3_under,
+                      s2_under],
+                      alignment="center",spacing=15)
+    
+    #AÑADIR TITULOS Y FILAS DE ACEROS A LA VENTANA PRINCIPAL
+    a = ft.Column([Title("SUPERIOR"),x_top, y_top, z_top, Title("INFERIOR"),
+                   x_under,y_under,z_under],
+                  alignment="center",spacing=10)
+    page.add(ft.Row([a], alignment="center", spacing=120))
 
+    #AÑADIR LOS BOTONES A LA VENTANA PRINCIPAL
+    page.add(ft.Row([boton_style, boton_draw], alignment="center"))
+    return (text_viga, text_base, text_altura)
 
+ft.app(target=main, assets_dir="assets")
