@@ -1,16 +1,18 @@
 # DRAW_BEAM V1
-Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros superiores e inferiores, cuenta con interfaz (flet)
+Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros superiores e inferiores, cuenta con interfaz
+desarrollada en flet
+
+Buen dia con todos.
+- En esta versión se ha optimizado el código para la interaz y para la parte de obtención y ejecución
+del dibujo
+
+Para más detalles de uso en el siguiente link de TK --> https://www.tiktok.com/@becla_ingenieros/video/7256979880494075141?is_from_webapp=1&sender_device=pc&web_id=7359404173891241478
 
 #PEQUEÑO EJEMPLO
 
-Buen dia con todos.
--Esta versión de prueba esta limitado, como se observa
-solo esta disponible para dibujar una fila, en la parte superior
-e inferior.
-
 USO : 
 - PASOS:
- Paso 1: Abrir el AutoCad o Civil 3D en el formato CAD
+ Paso 1: Abrir el AutoCad o Civil 3D
  Paso 2 : Colocar el nombre de la viga
  Paso 3: Cargas los estilos de texto y cota disponibles en su documento
  Paso 4: Colocar datos de la geometria en "metros" ejemplo :
@@ -66,7 +68,6 @@ EJEMPLO N° 01:
 Dibujar una sección de viga de 0.40m x 0.70m con 4 aceros en la parte superior 2 de 3/4" y
 2 de 1/2" y en la parte inferior 5 aceros 2 de 1" y 3 de 5/8"
 
-
 PASOS EN LA APPLICACIÓN:
 
 DENOMINACIÓN Y ESTILOS
@@ -92,4 +93,5 @@ ACEROS
 		Parciales = 1 de 1"ADD;
 				3  de 5/8" ADD; 
 				1 de 1" ADD.
-Clic en "DIBUJAR", luego dar clic en el punto que quieren que se dibuje la sección.
+
+Click en "DIBUJAR", luego dar click en el punto que quieren que se dibuje la sección.
