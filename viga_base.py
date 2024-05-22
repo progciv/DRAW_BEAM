@@ -1,10 +1,10 @@
 from pyautocad import Autocad
 from pyautocad import APoint as AP
 from math import pi
-from math import sin,cos,tan
+from math import sin,cos
 from fractions import Fraction
 import comtypes
-       
+
 class Seccion():
     def __init__(self,b,h,r):
         self.acad = Autocad()
@@ -21,7 +21,8 @@ class Seccion():
         self.point_1 = AP(self.puntox, self.puntoy + self.altura, 0)
         self.point_2 = AP(self.puntox + self.base, self.puntoy + self.altura, 0)
         self.point_3 = AP(self.puntox + self.base, self.puntoy, 0)
-        self.point_4 = AP(self.puntox, self.puntoy, 0)  
+        self.point_4 = AP(self.puntox, self.puntoy, 0)
+        
     def draw(self):
         self.line_1 = self.acad.model.AddLine(self.point_insert, self.point_1)
         self.line_2 = self.acad.model.AddLine(self.point_1, self.point_2)
@@ -93,19 +94,19 @@ class Acero():
             self.top_e2 = 0
         if s1_top !="":
             self.top_e = float(s1_top)
-        if s2_top !="":
+        if s2_top != "":
             self.top_e2 = float(s2_top)
 
-        if s1_under =="" and s2_under =="":
+        if s1_under == "" and s2_under == "":
             self.under_e = 0
             self.under_e2 = 0
-        elif s1_under =="":
+        elif s1_under == "":
             self.under_e = 0
             self.under_e2 = 0
             
-        if s1_under !="":
+        if s1_under != "":
             self.under_e = float(s1_under)
-        if s2_under !="":
+        if s2_under != "":
             self.under_e2 = float(s2_under) 
             
     def get_lista_interfaz(self,lista_row1_top,
@@ -127,7 +128,7 @@ class Acero():
         self.text_viga_name = nombre_viga
         
     def diameter_long_top(self):
-        self.d_long_top= self.acero_top
+        self.d_long_top = self.acero_top
         return self.diameter[self.d_long_top]
     
     def diameter_long_under(self):
@@ -151,13 +152,13 @@ class Acero():
         elif self.n_row_top == 2:
             self.n_bar_1_row2_top = self.barras_row1_top
             self.n_bar_2_row2_top = self.barras_row2_top
-            return self.n_bar_1_row2_top+self.n_bar_2_row2_top
+            return self.n_bar_1_row2_top + self.n_bar_2_row2_top
             
         elif self.n_row_top == 3:
             self.n_bar_1_row3_top = self.barras_row1_top
             self.n_bar_2_row3_top = self.barras_row2_top
             self.n_bar_3_row3_top = self.barras_row3_top
-            return self.n_bar_1_row3_top+self.n_bar_2_row3_top+self.n_bar_3_row3_top
+            return self.n_bar_1_row3_top + self.n_bar_2_row3_top + self.n_bar_3_row3_top
         
     def row_under(self):
         self.n_row_under = self.filas_inferiores
@@ -186,7 +187,7 @@ class Acero():
             if self.n_bar_1_row1_top > 2 :
                 self.bars_internal_top = self.n_bar_1_row1_top - 2
                 for i in range(self.bars_internal_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top[i]]
                     diameter_list_internal_top.append(diameter_internal)
                     
         elif self.n_row_top == 2:
@@ -194,11 +195,12 @@ class Acero():
                 self.bars_internal_top = self.n_bar_1_row2_top - 2
                 #1 FILA
                 for i in range(self.bars_internal_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top[i]]
                     diameter_list_internal_top.append(diameter_internal) 
                 #2 FILA
                 for i in range(self.n_bar_2_row2_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i+self.bars_internal_top]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top
+                                                      [i + self.bars_internal_top]]
                     diameter_list_internal_top.append(diameter_internal) 
                              
             elif self.n_bar_1_row2_top == 2 :
@@ -214,26 +216,29 @@ class Acero():
                 self.bars_internal_top = self.n_bar_1_row3_top - 2
                 #1 FILA
                 for i in range(self.bars_internal_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top[i]]
                     diameter_list_internal_top.append(diameter_internal) 
                 #2 FILA
                 for i in range(self.n_bar_2_row3_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i+self.bars_internal_top]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top
+                                                      [i+self.bars_internal_top]]
                     diameter_list_internal_top.append(diameter_internal)
                 #3 FILA    
                 for i in range(self.n_bar_3_row3_top):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_top[i+self.bars_internal_top+self.n_bar_2_row3_top]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_top
+                                                      [i+self.bars_internal_top+self.n_bar_2_row3_top]]
                     diameter_list_internal_top.append(diameter_internal)  
                 
-            elif self.n_bar_1_row3_top ==2 :
-                if self.n_bar_2_row3_top >0 and self.n_bar_2_row3_top >0 :
+            elif self.n_bar_1_row3_top == 2 :
+                if self.n_bar_2_row3_top > 0 and self.n_bar_2_row3_top >0 :
                     #2 FILA
                     for i in range(self.n_bar_2_row3_top):
-                        diameter_internal =self.diameter[self.diameter_internal_list_str_top[i]]
+                        diameter_internal = self.diameter[self.diameter_internal_list_str_top[i]]
                         diameter_list_internal_top.append(diameter_internal) 
                     #3 FILA 
                     for i in range(self.n_bar_3_row3_top):
-                        diameter_internal =self.diameter[self.diameter_internal_list_str_top[i+self.n_bar_2_row3_top]]
+                        diameter_internal = self.diameter[self.diameter_internal_list_str_top
+                                                          [i+self.n_bar_2_row3_top]]
                         diameter_list_internal_top.append(diameter_internal) 
                     
         return diameter_list_internal_top
@@ -249,55 +254,59 @@ class Acero():
             if self.n_bar_1_row1_under > 2 :
                 self.bars_internal_under = self.n_bar_1_row1_under - 2
                 for i in range(self.bars_internal_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under[i]]
                     diameter_list_internal_under.append(diameter_internal) 
                     
-        elif self.n_row_under==2:
+        elif self.n_row_under== 2:
             
             if self.n_bar_1_row2_under >2 and self.n_bar_2_row2_under >0 :
                 self.bars_internal_under = self.n_bar_1_row2_under - 2
                 #1 FILA
                 for i in range(self.bars_internal_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under[i]]
                     diameter_list_internal_under.append(diameter_internal)     
                 #2 FILA
                 for i in range(self.n_bar_2_row2_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i+self.bars_internal_under]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under
+                                                      [i + self.bars_internal_under]]
                     diameter_list_internal_under.append(diameter_internal) 
                       
             elif self.n_bar_1_row2_under == 2 :
                 #2 FILA
                 for i in range(self.n_bar_2_row2_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under[i]]
                     diameter_list_internal_under.append(diameter_internal) 
                   
-        elif self.n_row_under==3:
+        elif self.n_row_under == 3:
             #1 FILA
             if self.n_bar_1_row3_under > 2 and self.n_bar_2_row3_under > 0 and self.n_bar_3_row3_under > 0:
                 self.bars_internal_under = self.n_bar_1_row3_under - 2 
 
                 for i in range(self.bars_internal_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under[i]]
                     diameter_list_internal_under.append(diameter_internal) 
                 #2 FILA
                 for i in range(self.n_bar_2_row3_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i+self.bars_internal_under]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under
+                                                      [i + self.bars_internal_under]]
                     diameter_list_internal_under.append(diameter_internal) 
                 #3 FILA    
                 for i in range(self.n_bar_3_row3_under):
-                    diameter_internal =self.diameter[self.diameter_internal_list_str_under[i+self.bars_internal_under+self.n_bar_2_row3_under]]
+                    diameter_internal = self.diameter[self.diameter_internal_list_str_under
+                                                      [i+ self.bars_internal_under + self.n_bar_2_row3_under]]
                     diameter_list_internal_under.append(diameter_internal)
                 
-            elif self.n_bar_1_row3_under ==2 :
+            elif self.n_bar_1_row3_under == 2 :
                 
-                if self.n_bar_2_row3_under >0 and self.n_bar_2_row3_under >0 :
+                if self.n_bar_2_row3_under > 0 and self.n_bar_2_row3_under > 0 :
                     #2 FILA
                     for i in range(self.n_bar_2_row3_under):
                         diameter_internal =self.diameter[self.diameter_internal_list_str_under[i]]
                         diameter_list_internal_under.append(diameter_internal) 
                     #3 FILA    
                     for i in range(self.n_bar_3_row3_under):
-                        diameter_internal =self.diameter[self.diameter_internal_list_str_under[i+self.n_bar_2_row3_under]]
+                        diameter_internal =self.diameter[self.diameter_internal_list_str_under
+                                                         [i+self.n_bar_2_row3_under]]
                         diameter_list_internal_under.append(diameter_internal)        
         return diameter_list_internal_under
 
@@ -345,115 +354,125 @@ class Viga(Acero,Seccion,Style):
         return self.row_under()
     
     def points_estribo_exterior(self):
+        self.diameter_under = self.get_diameter_long_under()
+        self.diameter_top = self.get_diameter_long_top()
+        
         self.point1_e = AP(self.puntox + self.r,
-                        self.puntoy +self.r + self.get_diameter_long_under()/2,
+                        self.puntoy +self.r + self.diameter_under/2,
                         0)
         self.point2_e = AP(self.puntox + self.r, 
-                        self.puntoy + self.altura - self.r - self.get_diameter_long_top()/2,
+                        self.puntoy + self.altura - self.r - self.diameter_top/2,
                         0)
-        self.point3_e = AP(self.puntox + self.r + self.get_diameter_long_top()/2, 
+        self.point3_e = AP(self.puntox + self.r + self.diameter_top/2, 
                         self.puntoy + self.altura - self.r,
                         0)
-        self.point4_e = AP(self.puntox + self.base - self.r - self.get_diameter_long_top()/2, 
+        self.point4_e = AP(self.puntox + self.base - self.r - self.diameter_top/2, 
                         self.puntoy + self.altura - self.r,
                         0)
         self.point5_e = AP(self.puntox + self.base - self.r,
-                        self.puntoy + self.altura - self.r - self.get_diameter_long_top()/2,
+                        self.puntoy + self.altura - self.r - self.diameter_top/2,
                         0)
         self.point6_e = AP(self.puntox + self.base - self.r,
-                        self.puntoy + self.r + self.get_diameter_long_under()/2,
+                        self.puntoy + self.r + self.diameter_under/2,
                         0)
-        self.point7_e = AP(self.puntox + self.base - self.r - self.get_diameter_long_under()/2,
+        self.point7_e = AP(self.puntox + self.base - self.r - self.diameter_under/2,
                         self.puntoy + self.r,
                         0)
-        self.point8_e = AP(self.puntox + self.r + self.get_diameter_long_under()/2,
+        self.point8_e = AP(self.puntox + self.r + self.diameter_under/2,
                         self.puntoy + self.r,
                         0)
     
     def points_bow(self):
-        self.point1_bow=AP(self.puntox + self.r + self.get_diameter_long_under()/2,
-                        self.puntoy +self.r + self.get_diameter_long_under()/2,
+        self.point1_bow=AP(self.puntox + self.r + self.diameter_under/2,
+                        self.puntoy +self.r + self.diameter_under/2,
                         0)
-        self.point2_bow=AP(self.puntox + self.r +self.get_diameter_long_top()/2 , 
-                        self.puntoy + self.altura - self.r - self.get_diameter_long_top()/2,
+        self.point2_bow=AP(self.puntox + self.r + self.diameter_top/2 , 
+                        self.puntoy + self.altura - self.r - self.diameter_top/2,
                         0)
-        self.point3_bow=AP(self.puntox + self.base - self.r - self.get_diameter_long_top()/2,
-                        self.puntoy + self.altura - self.r - self.get_diameter_long_top()/2,
+        self.point3_bow=AP(self.puntox + self.base - self.r - self.diameter_top/2,
+                        self.puntoy + self.altura - self.r - self.diameter_top/2,
                         0)
-        self.point4_bow=AP(self.puntox + self.base - self.r - self.get_diameter_long_under()/2,
-                        self.puntoy + self.r + self.get_diameter_long_under()/2,
+        self.point4_bow=AP(self.puntox + self.base - self.r - self.diameter_under/2,
+                        self.puntoy + self.r + self.diameter_under/2,
                         0)
         
     def points_estribo_interior(self):
-        self.point1_i = AP(self.puntox + self.r + self.get_diameter_e(),
-                        self.puntoy +self.r +  self.get_diameter_e()+self.get_diameter_long_under()/2,
+
+        self.diameter_estribo = self.get_diameter_e()
+
+        self.point1_i = AP(self.puntox + self.r + self.diameter_estribo,
+                        self.puntoy +self.r +  self.diameter_estribo + self.diameter_under/2,
                         0)
-        self.point2_i = AP(self.puntox + self.r + self.get_diameter_e(), 
-                        self.puntoy + self.altura - self.r- self.get_diameter_e()-self.get_diameter_long_top()/2,
+        self.point2_i = AP(self.puntox + self.r + self.diameter_estribo, 
+                        self.puntoy + self.altura - self.r- self.diameter_estribo-self.diameter_top/2,
                         0)
-        self.point3_i = AP(self.puntox + self.r + self.get_diameter_e()+self.get_diameter_long_top()/2, 
-                        self.puntoy + self.altura - self.r - self.get_diameter_e(),
+        self.point3_i = AP(self.puntox + self.r + self.diameter_estribo+self.diameter_top/2, 
+                        self.puntoy + self.altura - self.r - self.diameter_estribo,
                         0)
-        self.point4_i = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2, 
-                        self.puntoy + self.altura - self.r - self.get_diameter_e(),
+        self.point4_i = AP(self.puntox + self.base - self.r - self.diameter_estribo-self.diameter_top/2, 
+                        self.puntoy + self.altura - self.r - self.diameter_estribo,
                         0)
-        self.point5_i = AP(self.puntox + self.base - self.r - self.get_diameter_e(),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2,
+        self.point5_i = AP(self.puntox + self.base - self.r - self.diameter_estribo,
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2,
                         0)
-        self.point6_i = AP(self.puntox + self.base - self.r - self.get_diameter_e(),
-                        self.puntoy + self.r + self.get_diameter_e()+self.get_diameter_long_under()/2,
+        self.point6_i = AP(self.puntox + self.base - self.r - self.diameter_estribo,
+                        self.puntoy + self.r + self.diameter_estribo+self.diameter_under/2,
                         0)
-        self.point7_i = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.get_diameter_long_under()/2,
-                        self.puntoy + self.r + self.get_diameter_e(),
+        self.point7_i = AP(self.puntox + self.base - self.r - self.diameter_estribo-self.diameter_under/2,
+                        self.puntoy + self.r + self.diameter_estribo,
                         0)
-        self.point8_i = AP(self.puntox + self.r + self.get_diameter_e()+self.get_diameter_long_under()/2,
-                        self.puntoy + self.r + self.get_diameter_e(),
+        self.point8_i = AP(self.puntox + self.r + self.diameter_estribo+self.diameter_under/2,
+                        self.puntoy + self.r + self.diameter_estribo,
                         0)
         
     def points_gancho(self):
-        self.gancho_ext = AP(self.puntox + self.base - self.r - self.get_diameter_e()-(self.get_diameter_long_top()/2*(1- cos(pi/4))),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2-
-                        self.get_diameter_long_top()/2*sin(pi/4),
+        self.gancho_ext = AP(self.puntox + self.base - self.r - self.diameter_estribo-
+                             (self.diameter_top/2*(1- cos(pi/4))),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2-
+                        self.diameter_top/2*sin(pi/4),
                         0)
-        self.gancho_ext_final = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.long_gancho*cos(pi/4)-self.get_diameter_long_top()/2*cos(pi/4),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2-
-                        self.get_diameter_long_top()/2*sin(pi/4) -self.long_gancho*cos(pi/4) ,
+        self.gancho_ext_final = AP(self.puntox + self.base - self.r - self.diameter_estribo - self.long_gancho*cos(pi/4) - 
+                                   self.diameter_top/2*cos(pi/4),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top / 2-
+                        self.diameter_top/2*sin(pi/4) -self.long_gancho*cos(pi/4) ,
                         0)
         
-        self.offsed_ext_inicial = AP(self.point5_i.x,self.gancho_ext.y-self.get_diameter_e())
-        self.offsed_ext_final=AP(self.gancho_ext_final.x +(self.get_diameter_e()*cos(44*pi/180)/sin(44*pi/180)/2),
-                                 self.gancho_ext_final.y-self.get_diameter_e()+(self.get_diameter_e()*cos(44*pi/180)/sin(44*pi/180))/2)
+        self.offsed_ext_inicial = AP(self.point5_i.x,self.gancho_ext.y-self.diameter_estribo)
+        self.offsed_ext_final=AP(self.gancho_ext_final.x +(self.diameter_estribo*cos(44*pi/180) / sin(44*pi/180)/2),
+                                 self.gancho_ext_final.y-self.diameter_estribo + 
+                                 (self.diameter_estribo * cos(44*pi/180) / sin(44*pi/180))/2)
         
         
-        self.gancho_int = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 
-                                                                -(self.get_diameter_long_top()/2*sin(pi/4)
+        self.gancho_int = AP(self.puntox + self.base - self.r - self.diameter_estribo-self.diameter_top/2 
+                                                                -(self.diameter_top/2*sin(pi/4)
                                                                                        ),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-(self.get_diameter_long_top()/2*(1-cos(pi/4))),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-(self.diameter_top/2*(1-cos(pi/4))),
                         0)
-        self.gancho_int_final = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2-
-                                                                (self.get_diameter_long_top()/2*sin(pi/4))-self.long_gancho*cos(pi/4),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-(self.long_gancho/(2**(1/2)))-
-                        (self.get_diameter_long_top()/2*(cos(pi/4))),
+        self.gancho_int_final = AP(self.puntox + self.base - self.r - self.diameter_estribo-self.diameter_top/2-
+                                                                (self.diameter_top/2*sin(pi/4))-self.long_gancho*cos(pi/4),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-(self.long_gancho/(2**(1/2)))-
+                        (self.diameter_top/2*(cos(pi/4))),
                         0)
         
-        self.offsed_int_inicial = AP(self.gancho_int.x-self.get_diameter_e(),self.point4_i.y)
-        self.offsed_int_final=AP( self.gancho_int_final.x-(self.get_diameter_e()*cos(44*pi/180)/sin(44*pi/180)/2) ,
-                                 self.gancho_int_final.y+self.get_diameter_e()-(self.get_diameter_e()*cos(44*pi/180)/sin(44*pi/180))/2)
+        self.offsed_int_inicial = AP(self.gancho_int.x - self.diameter_estribo,self.point4_i.y)
+        self.offsed_int_final=AP( self.gancho_int_final.x - (self.diameter_estribo*cos(44*pi/180)/sin(44*pi/180)/2) ,
+                                 self.gancho_int_final.y + self.diameter_estribo - 
+                                 (self.diameter_estribo * cos( * pi / 180) / sin(44 * pi / 180)) / 2)
         
     def points_circle(self):
         #Aceros superiores 
-        self.point2_circle = AP(self.puntox + self.r + self.get_diameter_e() + self.get_diameter_long_top() / 2, 
-                        self.puntoy + self.altura - self.r - self.get_diameter_e() - self.get_diameter_long_top() / 2,
+        self.point2_circle = AP(self.puntox + self.r + self.diameter_estribo + self.diameter_top / 2, 
+                        self.puntoy + self.altura - self.r - self.diameter_estribo - self.diameter_top / 2,
                         0)
-        self.point3_circle = AP(self.puntox + self.base - self.r - self.get_diameter_e() - self.get_diameter_long_top() / 2,
-                        self.puntoy + self.altura - self.r - self.get_diameter_e() - self.get_diameter_long_top() / 2,
+        self.point3_circle = AP(self.puntox + self.base - self.r - self.diameter_estribo - self.diameter_top / 2,
+                        self.puntoy + self.altura - self.r - self.diameter_estribo - self.diameter_top / 2,
                         0)
         #Aceros inferiores 2
-        self.point1_circle = AP(self.puntox + self.r + self.get_diameter_e() + self.get_diameter_long_under() / 2,
-                        self.puntoy +self.r +  self.get_diameter_e() + self.get_diameter_long_under() / 2,
+        self.point1_circle = AP(self.puntox + self.r + self.diameter_estribo + self.diameter_under / 2,
+                        self.puntoy +self.r +  self.diameter_estribo + self.diameter_under / 2,
                         0)
-        self.point4_circle = AP(self.puntox + self.base - self.r - self.get_diameter_e()- self.get_diameter_long_under()/2,
-                        self.puntoy + self.r +  self.get_diameter_e() + self.get_diameter_long_under() / 2,
+        self.point4_circle = AP(self.puntox + self.base - self.r - self.diameter_estribo- self.diameter_under/2,
+                        self.puntoy + self.r +  self.diameter_estribo + self.diameter_under / 2,
                         0)
         
     def draw_line_e(self):
@@ -478,39 +497,40 @@ class Viga(Acero,Seccion,Style):
         self.linea_union_int = self.acad.model.AddLine(self.gancho_int_final, self.offsed_int_final)
         
     def draw_bow(self):
-        self.bow1=self.acad.model.AddArc(self.point1_bow,self.get_diameter_long_under()/2,pi,3*pi/2)
-        self.bow2=self.acad.model.AddArc(self.point2_bow,self.get_diameter_long_top()/2,pi/2, pi)
-        self.bow3=self.acad.model.AddArc(self.point3_bow,self.get_diameter_long_top()/2,0,pi/2)
-        self.bow4=self.acad.model.AddArc(self.point4_bow,self.get_diameter_long_under()/2,3*pi/2,0)
+        self.bow1=self.acad.model.AddArc(self.point1_bow,self.diameter_under/2,pi,3*pi/2)
+        self.bow2=self.acad.model.AddArc(self.point2_bow,self.diameter_top/2,pi/2, pi)
+        self.bow3=self.acad.model.AddArc(self.point3_bow,self.diameter_top/2,0,pi/2)
+        self.bow4=self.acad.model.AddArc(self.point4_bow,self.diameter_under/2,3*pi/2,0)
         
     def draw_circle(self):
-        self.circle1=self.acad.model.AddCircle(self.point1_circle,self.get_diameter_long_under()/2)
-        self.circle2=self.acad.model.AddCircle(self.point2_circle,self.get_diameter_long_top()/2)
-        self.circle3=self.acad.model.AddCircle(self.point3_circle,self.get_diameter_long_top()/2)
-        self.circle4=self.acad.model.AddCircle(self.point4_circle,self.get_diameter_long_under()/2)
+        self.circle1=self.acad.model.AddCircle(self.point1_circle,self.diameter_under/2)
+        self.circle2=self.acad.model.AddCircle(self.point2_circle,self.diameter_top/2)
+        self.circle3=self.acad.model.AddCircle(self.point3_circle,self.diameter_top/2)
+        self.circle4=self.acad.model.AddCircle(self.point4_circle,self.diameter_under/2)
       
     def draw_circle_int_top(self):
+        self.filas_top = self.get_row_tops()
         
         if self.n_row_top ==1:
             
-            if self.get_row_tops()>2:
-                self.divisiones_top = (self.point3_circle.x-self.point2_circle.x)/(self.get_row_tops()-1)
+            if self.filas_top>2:
+                self.divisiones_top = (self.point3_circle.x-self.point2_circle.x)/(self.filas_top-1)
                 i=0
                 for j in self.diameter_long_top_internal():
                     i+=1
                     self.circle1_int_top=self.acad.model.AddCircle(AP(self.point2_circle.x+self.divisiones_top*i,
-                                                                self.puntoy + self.altura - self.r- self.get_diameter_e()-j/2,
+                                                                self.puntoy + self.altura - self.r- self.diameter_estribo-j/2,
                                         0) ,j/2)
                     
         elif self.n_row_top == 2:
             
-            self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.get_row_tops()-1-self.n_bar_2_row2_top)
+            self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.filas_top-1-self.n_bar_2_row2_top)
             
             j = self.diameter_long_top_internal()
 
             if self.n_bar_1_row2_top >2 and self.n_bar_2_row2_top >0:
-                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row2_top-2] /2))/(self.get_row_tops()-1-self.n_bar_1_row2_top)
+                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row2_top-2] /2))/(self.filas_top-1-self.n_bar_1_row2_top)
                 #Se le resta 2 porque en la primera fijo es 2, si es 3 entonces se le resta 2, 
                 # para que se realice solo una vuelta y agregue un acero más
                 for i in range(self.n_bar_1_row2_top-2):
@@ -518,181 +538,178 @@ class Viga(Acero,Seccion,Style):
                     #ya hay hacero en la primera fila
                     i+=1
                     self.circle1_int_top=self.acad.model.AddCircle(AP(self.point2_circle.x+self.divisiones_top_row1*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-j[i-1] /2,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-j[i-1] /2,
                                                                     0) ,j[i-1]/2)
                 for i in range(self.n_bar_2_row2_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row2_top-2] /2
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row2_top-2] /2
                                                                         +self.divisiones_top_row2*(i),
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e,
                                                                     0) ,j[i+self.n_bar_1_row2_top-2]/2)
                     i+=1
             
             elif self.n_bar_1_row2_top ==2:
-                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + j[0] /2))/(self.get_row_tops()-1-self.n_bar_1_row2_top)
+                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + j[0] /2))/(self.filas_top-1-self.n_bar_1_row2_top)
                 
                 for i in range(self.n_bar_2_row2_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[0] /2
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[0] /2
                                                                         +self.divisiones_top_row2*(i),
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e,
                                                                     0) ,j[i]/2)
                     i+=1
                     
         elif self.n_row_top == 3:
 
-            self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.get_row_tops()-1-self.n_bar_2_row3_top-self.n_bar_3_row3_top)
-            print(self.get_row_tops())
-            print(self.n_bar_11_row3_top)
-            print(self.n_bar_2_row3_top)
-            print(self.n_bar_3_row3_top)
+            self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.filas_top-1-self.n_bar_2_row3_top-self.n_bar_3_row3_top)
             j = self.diameter_long_top_internal()
             if self.n_bar_1_row3_top >2 and self.n_bar_2_row3_top >0 and self.n_bar_3_row3_top >0:
 
-                self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.get_row_tops()-1-self.n_bar_2_row3_top-self.n_bar_3_row3_top)
+                self.divisiones_top_row1 = (self.point3_circle.x-self.point2_circle.x)/(self.filas_top-1-self.n_bar_2_row3_top-self.n_bar_3_row3_top)
             
-                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-3]/2)
-                                          -(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row3_top-2] /2))/(self.get_row_tops()-1-self.n_bar_1_row3_top-self.n_bar_3_row3_top)
+                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-3]/2)
+                                          -(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row3_top-2] /2))/(self.filas_top-1-self.n_bar_1_row3_top-self.n_bar_3_row3_top)
 
-                self.divisiones_top_row3 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[-1]/2)
-                                          -(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-2] /2))/(self.get_row_tops()-1-self.n_bar_1_row3_top-self.n_bar_2_row3_top)
+                self.divisiones_top_row3 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[-1]/2)
+                                          -(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-2] /2))/(self.filas_top-1-self.n_bar_1_row3_top-self.n_bar_2_row3_top)
                 
                 for i in range(self.n_bar_1_row3_top-2):
                     
                     i+=1
                     self.circle1_int_top=self.acad.model.AddCircle(AP(self.point1_circle.x+self.divisiones_top_row1*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-j[i-1] /2,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-j[i-1] /2,
                                                                     0) ,j[i-1]/2)
                 for i in range(self.n_bar_2_row3_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row3_top-2] /2 
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row3_top-2] /2 
                                                                         + self.divisiones_top_row2*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e,
                                                                     0) ,j[self.n_bar_1_row3_top+i-2]/2)   
                     i+=1
                 for i in range(self.n_bar_3_row3_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-2] /2
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_1_row3_top+self.n_bar_2_row3_top-2] /2
                                                                         +self.divisiones_top_row3*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e - self.top_e2,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e - self.top_e2,
                                                                     0) ,j[self.n_bar_1_row3_top+self.n_bar_2_row3_top+i-2]/2)
                     i+=1
                     
             elif self.n_bar_1_row3_top ==2:
 
-                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[self.n_bar_2_row3_top-1]/2)
-                                          -(self.puntox + self.r + self.get_diameter_e() + j[0] /2))/(self.get_row_tops()-3 - self.n_bar_3_row3_top)
+                self.divisiones_top_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[self.n_bar_2_row3_top-1]/2)
+                                          -(self.puntox + self.r + self.diameter_estribo + j[0] /2))/(self.filas_top-3 - self.n_bar_3_row3_top)
 
-                self.divisiones_top_row3 = ((self.puntox + self.base - self.r - self.get_diameter_e()- j[-1]/2)
-                                          -(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_2_row3_top] /2))/(self.get_row_tops()- 3- self.n_bar_2_row3_top)
+                self.divisiones_top_row3 = ((self.puntox + self.base - self.r - self.diameter_estribo- j[-1]/2)
+                                          -(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_2_row3_top] /2))/(self.filas_top- 3- self.n_bar_2_row3_top)
                 
                 for i in range(self.n_bar_2_row3_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[0] /2 
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[0] /2 
                                                                         + self.divisiones_top_row2*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e,
                                                                     0) ,j[i]/2)   
                     i+=1
                 for i in range(self.n_bar_3_row3_top):
-                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + j[self.n_bar_2_row3_top] /2
+                    self.circle1_int_top=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + j[self.n_bar_2_row3_top] /2
                                                                         +self.divisiones_top_row3*i,
-                                                                    self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2 - self.top_e - self.top_e2,
+                                                                    self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2 - self.top_e - self.top_e2,
                                                                     0) ,j[self.n_bar_2_row3_top+i]/2)
                     i+=1
          
     def draw_circle_int_under(self):
+        self.filas_under = self.get_row_unders()
         if self.n_row_under ==1:
-            if self.get_row_unders()>2:
-                self.divisiones_under = (self.point4_circle.x-self.point1_circle.x)/(self.get_row_unders()-1)
+            if  self.filas_under>2:
+                self.divisiones_under = (self.point4_circle.x-self.point1_circle.x)/( self.filas_under-1)
                 i=0
                 self.k_under = self.diameter_long_under_internal()
                 for self.k_under in self.k_under:
                     i+=1
                     self.circle1_int_under=self.acad.model.AddCircle(AP(self.point1_circle.x+self.divisiones_under*i,
-                                                                self.puntoy + self.r +  self.get_diameter_e()+self.k_under/2,
+                                                                self.puntoy + self.r +  self.diameter_estribo+self.k_under/2,
                                                                 0) ,self.k_under/2)
         
         elif self.n_row_under == 2:
             
-            self.divisiones_under_row1 = (self.point4_circle.x-self.point1_circle.x)/(self.get_row_unders()-1-self.n_bar_2_row2_under)
+            self.divisiones_under_row1 = (self.point4_circle.x-self.point1_circle.x)/( self.filas_under-1-self.n_bar_2_row2_under)
             self.k_under = self.diameter_long_under_internal()
             if self.n_bar_1_row2_under >2 and self.n_bar_2_row2_under >0:
-                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[-self.n_bar_1_row2_under] /2))/(self.get_row_unders()-1-self.n_bar_1_row2_under)
+                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[-self.n_bar_1_row2_under] /2))/( self.filas_under-1-self.n_bar_1_row2_under)
                 
                 for i in range(self.n_bar_1_row2_under-2):
                     i+=1
                     self.circle1_int_under=self.acad.model.AddCircle(AP(self.point1_circle.x+self.divisiones_under_row1*i,
-                                                                    self.puntoy + self.r +  self.get_diameter_e()+self.k_under[i-1]/2,
+                                                                    self.puntoy + self.r +  self.diameter_estribo+self.k_under[i-1]/2,
                                                                     0) ,self.k_under[i-1]/2)
                 
                 for i in range(self.n_bar_2_row2_under):
                     
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_1_row2_under-2] /2
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_1_row2_under-2] /2
                                                                         +self.divisiones_under_row2*(i),
-                                                                    self.puntoy + self.r +  self.get_diameter_e()+ self.get_diameter_long_under()/2 + self.under_e,
+                                                                    self.puntoy + self.r +  self.diameter_estribo+ self.diameter_under/2 + self.under_e,
                                                                     0) ,self.k_under[self.n_bar_1_row2_under+i-2]/2)
                     i+=1
                     
             elif self.n_bar_1_row2_under ==2:
-                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[0] /2))/(self.get_row_unders()-1-self.n_bar_1_row2_under)
+                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[0] /2))/( self.filas_under-1-self.n_bar_1_row2_under)
                 
                 for i in range(self.n_bar_2_row2_under):
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[0] /2
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[0] /2
                                                                             +self.divisiones_under_row2*(i),
-                                                                        self.puntoy + self.r +  self.get_diameter_e()+ self.get_diameter_long_under()/2 + self.under_e,
+                                                                        self.puntoy + self.r +  self.diameter_estribo+ self.diameter_under/2 + self.under_e,
                                                                         0) ,self.k_under[i]/2)
                     i+=1
         
         elif self.n_row_under == 3:
             
-            self.divisiones_under_row1 = (self.point4_circle.x-self.point1_circle.x)/(self.get_row_unders()-1-self.n_bar_2_row3_under-self.n_bar_3_row3_under)
+            self.divisiones_under_row1 = (self.point4_circle.x-self.point1_circle.x)/( self.filas_under-1-self.n_bar_2_row3_under-self.n_bar_3_row3_under)
             self.k_under = self.diameter_long_under_internal()
             if self.n_bar_1_row3_under >2 and self.n_bar_2_row3_under >0 and self.n_bar_3_row3_under >0:
                 
-                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-3]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_1_row3_under-2] /2))/(self.get_row_unders()-1-self.n_bar_1_row3_under-self.n_bar_3_row3_under)
+                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-3]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_1_row3_under-2] /2))/( self.filas_under-1-self.n_bar_1_row3_under-self.n_bar_3_row3_under)
 
-                self.divisiones_under_row3 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-2] /2))/(self.get_row_unders()-1-self.n_bar_1_row3_under-self.n_bar_2_row3_under)
+                self.divisiones_under_row3 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-2] /2))/( self.filas_under-1-self.n_bar_1_row3_under-self.n_bar_2_row3_under)
                 
                 for i in range(self.n_bar_1_row3_under-2):
                     i+=1
                     self.circle1_int_under=self.acad.model.AddCircle(AP(self.point1_circle.x+self.divisiones_under_row1*i,
-                                                                    self.puntoy + self.r +  self.get_diameter_e()+self.k_under[i-1]/2,
+                                                                    self.puntoy + self.r +  self.diameter_estribo+self.k_under[i-1]/2,
                                                                     0) ,self.k_under[i-1]/2)
                 for i in range(self.n_bar_2_row3_under):
                     
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_1_row3_under-2] /2 
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_1_row3_under-2] /2 
                                                                         + self.divisiones_under_row2*i,
-                                                                    self.puntoy + self.r +  self.get_diameter_e()+self.get_diameter_long_under()/2 + self.under_e,
+                                                                    self.puntoy + self.r +  self.diameter_estribo+self.diameter_under/2 + self.under_e,
                                                                     0) ,self.k_under[self.n_bar_1_row3_under+i-2]/2)   
                     i+=1
                 for i in range(self.n_bar_3_row3_under):
                     
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-2] /2
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under-2] /2
                                                                         +self.divisiones_under_row3*i,
-                                                                    self.puntoy + self.r + self.get_diameter_e() + self.get_diameter_long_under()/2 + self.under_e +self.under_e2,
+                                                                    self.puntoy + self.r + self.diameter_estribo + self.diameter_under/2 + self.under_e +self.under_e2,
                                                                     0) ,self.k_under[self.n_bar_1_row3_under+self.n_bar_2_row3_under+i-2]/2)
                     i+=1
             
             elif self.n_bar_1_row3_under ==2:
 
-                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[self.n_bar_2_row3_under-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[0] /2))/(self.get_row_unders()-3 - self.n_bar_3_row3_under)
+                self.divisiones_under_row2 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[self.n_bar_2_row3_under-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[0] /2))/( self.filas_under-3 - self.n_bar_3_row3_under)
 
-                self.divisiones_under_row3 = ((self.puntox + self.base - self.r - self.get_diameter_e()- self.k_under[-1]/2)
-                                            -(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_2_row3_under] /2))/(self.get_row_unders()- 3- self.n_bar_2_row3_under)
+                self.divisiones_under_row3 = ((self.puntox + self.base - self.r - self.diameter_estribo- self.k_under[-1]/2)
+                                            -(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_2_row3_under] /2))/( self.filas_under- 3- self.n_bar_2_row3_under)
 
                 for i in range(self.n_bar_2_row3_under):
                     
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[0] /2 
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[0] /2 
                                                                         + self.divisiones_under_row2*i,
-                                                                    self.puntoy + self.r +  self.get_diameter_e()+self.get_diameter_long_under()/2 + self.under_e,
+                                                                    self.puntoy + self.r +  self.diameter_estribo+self.diameter_under/2 + self.under_e,
                                                                     0) ,self.k_under[i]/2)   
                     i+=1
                 for i in range(self.n_bar_3_row3_under):
                     
-                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.get_diameter_e() + self.k_under[self.n_bar_2_row3_under] /2
+                    self.circle1_int_under=self.acad.model.AddCircle(AP(self.puntox + self.r + self.diameter_estribo + self.k_under[self.n_bar_2_row3_under] /2
                                                                         +self.divisiones_under_row3*i,
-                                                                    self.puntoy + self.r + self.get_diameter_e() + self.get_diameter_long_under()/2 + self.under_e +self.under_e2,
+                                                                    self.puntoy + self.r + self.diameter_estribo + self.diameter_under/2 + self.under_e +self.under_e2,
                                                                     0) ,self.k_under[self.n_bar_2_row3_under+i]/2)
                     i+=1
         
@@ -701,13 +718,13 @@ class Viga(Acero,Seccion,Style):
         self.point_base = AP(self.puntox,self.puntoy,0)
         self.point_2 = AP(self.puntox,self.puntoy + self.altura,0)
         self.point_3 = AP(self.puntox + self.base ,self.puntoy,0)
-        self.gancho_ext = AP(self.puntox + self.base - self.r - self.get_diameter_e()-(self.get_diameter_long_top()/2*(1- cos(pi/4))),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2-
-                        self.get_diameter_long_top()/2*sin(pi/4),
+        self.gancho_ext = AP(self.puntox + self.base - self.r - self.diameter_estribo-(self.diameter_top/2*(1- cos(pi/4))),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2-
+                        self.diameter_top/2*sin(pi/4),
                         0)
-        self.gancho_ext_final = AP(self.puntox + self.base - self.r - self.get_diameter_e()-self.long_gancho*cos(pi/4)-self.get_diameter_long_top()/2*cos(pi/4),
-                        self.puntoy + self.altura - self.r - self.get_diameter_e()-self.get_diameter_long_top()/2-
-                        self.get_diameter_long_top()/2*sin(pi/4) -self.long_gancho*cos(pi/4) ,
+        self.gancho_ext_final = AP(self.puntox + self.base - self.r - self.diameter_estribo-self.long_gancho*cos(pi/4)-self.diameter_top/2*cos(pi/4),
+                        self.puntoy + self.altura - self.r - self.diameter_estribo-self.diameter_top/2-
+                        self.diameter_top/2*sin(pi/4) -self.long_gancho*cos(pi/4) ,
                         0)
         
         self.cota_y = self.acad.model.AddDimAligned(self.point_base, self.point_2, AP(self.puntox - 0.05, self.altura / 2, 0))
@@ -717,19 +734,19 @@ class Viga(Acero,Seccion,Style):
                                                             self.gancho_ext.y,0),
                                                          )
         
-        self.point3_e = AP(self.puntox + self.r + self.get_diameter_long_top()/2, 
+        self.point3_e = AP(self.puntox + self.r + self.diameter_top/2, 
                         self.puntoy + self.altura - self.r,
                         0)
-        self.point4_e = AP(self.puntox + self.base - self.r - self.get_diameter_long_top()/2, 
+        self.point4_e = AP(self.puntox + self.base - self.r - self.diameter_top/2, 
                         self.puntoy + self.altura - self.r,
                         0)
         
         self.guide_line_est = self.acad.model.AddLine( AP(self.point3_e.x + (self.point4_e.x-self.point3_e.x)/2,self.point3_e.y,0 ),
                                                                 AP(self.point3_e.x + (self.point4_e.x-self.point3_e.x)/2,
-                                                                   self.point3_e.y + self.get_diameter_e() + self.r + 0.02,0))
+                                                                   self.point3_e.y + self.diameter_estribo + self.r + 0.02,0))
         self.text_est = self.acad.model.AddText(f"Ø{self.diametro_EST}", 
                                                         AP(self.point3_e.x + (self.point4_e.x-self.point3_e.x)/2,
-                                                                   self.point3_e.y + self.get_diameter_e() + self.r + 0.02,0),
+                                                                   self.point3_e.y + self.diameter_estribo + self.r + 0.02,0),
                                                         0.02)  
         
         self.text_viga = self.acad.model.AddText(f"VIGA {self.text_viga_name}", 
@@ -744,7 +761,7 @@ class Viga(Acero,Seccion,Style):
         self.text_style_selection = self.estilo_texto
 
         if self.n_row_top ==1:
-            if self.get_row_tops()>2:
+            if self.filas_top>2:
                 repetidos = {}
                 list_top = self.diameter_internal_list_str_top
                 for elemento in self.diameter_list:
@@ -1041,7 +1058,7 @@ class Viga(Acero,Seccion,Style):
         self.text_style_selection = self.estilo_texto
 
         if self.n_row_under ==1:
-            if self.get_row_unders()>2:
+            if  self.filas_under>2:
                 repetidos = {}
                 list_under = self.diameter_internal_list_str_under
                 for elemento in self.diameter_list:
@@ -1182,7 +1199,7 @@ class Viga(Acero,Seccion,Style):
                                                         0.02)
                 self.text_under.StyleName = self.text_style_selection 
        
-        elif self.n_row_under ==3:
+        elif self.n_row_under == 3:
             repetidos_bar2_row3 = {}
             repetidos_bar3_row3 = {}
             lista_completa = self.diameter_internal_list_str_under
@@ -1333,7 +1350,3 @@ class Viga(Acero,Seccion,Style):
                                                         AP(self.puntox + self.base + 0.015, self.point4_circle.y - 0.01 + self.under_e + self.under_e2,0),
                                                         0.02)
                 self.text_under.StyleName = self.text_style_selection
-
-
-    
-    
