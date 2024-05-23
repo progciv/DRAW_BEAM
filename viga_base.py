@@ -457,7 +457,7 @@ class Viga(Acero,Seccion,Style):
         self.offsed_int_inicial = AP(self.gancho_int.x - self.diameter_estribo,self.point4_i.y)
         self.offsed_int_final=AP( self.gancho_int_final.x - (self.diameter_estribo*cos(44*pi/180)/sin(44*pi/180)/2) ,
                                  self.gancho_int_final.y + self.diameter_estribo - 
-                                 (self.diameter_estribo * cos( * pi / 180) / sin(44 * pi / 180)) / 2)
+                                 (self.diameter_estribo * cos( 44 * pi / 180) / sin(44 * pi / 180)) / 2)
         
     def points_circle(self):
         #Aceros superiores 
