@@ -1,4 +1,4 @@
-# DRAW_BEAM V1
+# DRAW_BEAM V1 Programado por Henry Bernilla Rodriguez - gmail : henrydavid.br.13@gmail.com
 Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros superiores e inferiores, cuenta con interfaz
 desarrollada en flet
 
