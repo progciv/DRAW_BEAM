@@ -3,7 +3,7 @@ Dibujo automático de secciones transversales de vigas, hasta 3 filas de aceros 
 desarrollada en flet
 
 Buen dia con todos.
-- En esta versión se ha optimizado el código para la interaz y para la parte de obtención y ejecución
+- En esta versión se ha optimizado el código para la interaz y la parte de obtención y ejecución
 del dibujo
 
 Para más detalles de uso en el siguiente link de TK --> https://www.tiktok.com/@becla_ingenieros/video/7256979880494075141?is_from_webapp=1&sender_device=pc&web_id=7359404173891241478
